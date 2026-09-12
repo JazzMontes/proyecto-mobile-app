@@ -5,6 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
 
+import { addIcons } from 'ionicons';
+import {
+  locationOutline,
+  callOutline,
+  mailOutline
+} from 'ionicons/icons';
+
 interface LoginResponse {
   success: boolean;
   message: string;
@@ -45,7 +52,13 @@ export class LoginPage {
   // Cambia esta URL por la dirección real donde publiques la carpeta api.
   private readonly apiUrl = 'http://localhost/API_9B/login.php';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    addIcons({
+      'location-outline': locationOutline,
+      'call-outline': callOutline,
+      'mail-outline': mailOutline
+    });
+  }
 
   async login(): Promise<void> {
     if (this.isLoginAnimating || this.authenticating) {
@@ -76,14 +89,26 @@ export class LoginPage {
       );
 
       if (!response.data.success || !response.data.user) {
-        throw new Error(response.data.message || 'No fue posible iniciar sesión.');
+        throw new Error(
+          response.data.message || 'No fue posible iniciar sesión.'
+        );
       }
 
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem(
+        'user',
+        JSON.stringify(response.data.user)
+      );
+
       this.finishAuthenticationAnimation(true);
+
     } catch (error: any) {
       const apiMessage = error?.response?.data?.message;
-      this.errorMessage = apiMessage || error?.message || 'Error al conectar con el servidor.';
+
+      this.errorMessage =
+        apiMessage ||
+        error?.message ||
+        'Error al conectar con el servidor.';
+
       this.finishAuthenticationAnimation(false);
     }
   }
@@ -119,7 +144,9 @@ export class LoginPage {
 
     if (success) {
       setTimeout(() => {
-        this.router.navigateByUrl('/tabs/tab1', { replaceUrl: true });
+        this.router.navigateByUrl('/tabs/tab1', {
+          replaceUrl: true
+        });
       }, 1500);
     }
   }
