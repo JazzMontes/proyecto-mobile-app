@@ -1,39 +1,144 @@
-# Build Your First Ionic App: Photo Gallery (Ionic Angular and Capacitor)
+# 📱 Proyecto Mobile App
 
-Get started with Ionic by building a photo gallery app that runs on iOS, Android, and the web - with just one codebase. This is the complete project referenced in the ["Your First App: Angular" guide](https://ionicframework.com/docs/angular/your-first-app). Follow along to create a complete CRUD (create-read-update-delete) experience.
+Aplicación móvil desarrollada con **Ionic y Angular**, enfocada en implementar una interfaz sencilla, navegación entre diferentes vistas y un sistema de autenticación de usuarios conectado a una base de datos.
 
-Powered by [Ionic Angular](https://ionicframework.com/docs/angular/overview) (web app) and [Capacitor](https://capacitor.ionicframework.com) (native app runtime).
+## 🎯 Objetivo de la aplicación
 
-## How It Works
+El objetivo de esta aplicación es desarrollar una aplicación móvil funcional utilizando **Ionic y Angular**, que permita a los usuarios iniciar sesión y acceder a diferentes secciones mediante una interfaz sencilla e intuitiva.
 
-After the user navigates to Tab 2 (Photos), they can tap/click on the camera button to open up the device's camera. After taking or selecting a photo, it's stored permanently into the device's filesystem. When the user reopens the app at a later time, the photo images are loaded from the filesystem and displayed again in the gallery. The user can tap on a photo to be presented with the option to remove the photo.
+El proyecto busca aplicar conceptos básicos del desarrollo de aplicaciones móviles, como la creación y diseño de vistas, navegación mediante tabs, manejo de información del usuario y comunicación con una API para consultar datos almacenados en una base de datos.
 
-## Feature Overview
-* App framework: [Angular](https://angular.io)
-* UI components: [Ionic Framework](https://ionicframework.com/docs/components)
-  * Camera button: [Floating Action Button (FAB)](https://ionicframework.com/docs/api/fab)
-  * Photo Gallery display: [Grid](https://ionicframework.com/docs/api/grid)
-  * Delete Photo dialog: [Action Sheet](https://ionicframework.com/docs/api/action-sheet) 
-* Native runtime: [Capacitor](https://capacitor.ionicframework.com)
-  * Taking photos: [Camera API](https://capacitor.ionicframework.com/docs/apis/camera)
-  * Writing photo to the filesystem: [Filesystem API](https://capacitor.ionicframework.com/docs/apis/filesystem)
-  * Storing photo gallery metadata: [Preferences API](https://capacitor.ionicframework.com/docs/apis/preferences)
+## ⚙️ Funcionamiento
 
-## Project Structure
-* Tab2 (Photos) (`src/app/tab2/`): Photo Gallery UI and basic logic.
-* PhotoService (`src/app/services/photo.service.ts`): Logic encapsulating Capacitor APIs, including Camera, Filesystem, and Preferences.
+La aplicación inicia mostrando una pantalla de **Login**, donde el usuario debe ingresar su nombre de usuario y contraseña.
 
-## How to Run
+Al iniciar sesión, la aplicación valida que los campos estén completos y envía las credenciales mediante **Axios** a una API desarrollada en **PHP**.
 
-> [!TIP]
-> It's highly recommended to follow along with the [tutorial guide](https://ionicframework.com/docs/angular/your-first-app), which goes into more depth, but this is the fastest way to run the app.
+La API consulta la información almacenada en una base de datos **MySQL** y devuelve una respuesta indicando si las credenciales son correctas.
 
-> [!IMPORTANT]
-> Requires Node `^22.22.3 || ^24.15.0 || >=26.0.0` (Angular 22).
+Si el inicio de sesión es exitoso, la información principal del usuario se almacena temporalmente utilizando `localStorage` y el usuario es redirigido a las vistas principales de la aplicación.
 
-1) Install the Ionic CLI (if you haven't already): `npm install -g @ionic/cli`
-2) Clone the repository: `git clone https://github.com/ionic-team/tutorial-photo-gallery-angular`
-3) Navigate to the project directory: `cd tutorial-photo-gallery-angular`
-4) Install the project dependencies: `npm install`
-5) Run the app in your browser: `ionic serve`
-6) Run the app on iOS or Android: Follow the [Capacitor Workflow](https://capacitorjs.com/docs/basics/workflow) guide for instructions on building and running the app on a native platform.
+Si las credenciales son incorrectas o existe algún problema durante la conexión, se muestra un mensaje de error.
+
+### Flujo general
+
+```text
+Usuario
+   ↓
+Login en Ionic
+   ↓
+Axios
+   ↓
+API PHP
+   ↓
+Base de datos MySQL
+   ↓
+Respuesta de la API
+   ↓
+Acceso a la aplicación
+```
+
+## 📱 Vistas de la aplicación
+
+Actualmente, la aplicación cuenta con diferentes vistas para organizar la información y las funcionalidades.
+
+### 🔐 Login
+
+Es la pantalla inicial de la aplicación y permite:
+
+- Ingresar usuario y contraseña.
+- Validar que los campos estén completos.
+- Enviar las credenciales a la API.
+- Validar al usuario en la base de datos.
+- Mostrar mensajes en caso de error.
+- Guardar los datos del usuario al iniciar sesión correctamente.
+- Redirigir al usuario a la aplicación.
+
+### 🏠 Tab 1
+
+Funciona como una de las vistas principales después de iniciar sesión y forma parte de la navegación mediante tabs de Ionic.
+
+### 👤 Tab 2 - Perfil
+
+Esta vista permite mostrar la información del usuario que inició sesión, incluyendo:
+
+- Nombre.
+- Nombre de usuario.
+- Correo electrónico.
+- Estado.
+- Opción para cerrar sesión.
+
+Los datos utilizados en esta pantalla se obtienen a partir de la información almacenada después de realizar el inicio de sesión.
+
+## 🗄️ Modelo inicial de datos
+
+Para la autenticación se utiliza una base de datos **MySQL** que contiene la información de los usuarios.
+
+Entre los principales datos manejados se encuentran:
+
+- ID.
+- Nombre.
+- Nombre de usuario.
+- Correo electrónico.
+- Contraseña.
+- Estado.
+
+Este modelo permite identificar al usuario y utilizar posteriormente su información dentro de las diferentes vistas de la aplicación.
+
+## 🔄 Conexión con la API
+
+La comunicación entre la aplicación y el servidor se realiza utilizando **Axios**.
+
+La aplicación envía el usuario y contraseña a una API desarrollada en PHP. La API realiza la consulta correspondiente en MySQL y devuelve una respuesta en formato **JSON**.
+
+Cuando el usuario es válido, la aplicación recibe información como:
+
+```json
+{
+  "id": 1,
+  "username": "usuario",
+  "email": "usuario@email.com",
+  "name": "Nombre del usuario"
+}
+```
+
+Esta información puede ser utilizada posteriormente por otras vistas de la aplicación.
+
+## 🛠️ Tecnologías utilizadas
+
+- **Ionic** — Desarrollo de la aplicación móvil.
+- **Angular** — Estructura y funcionamiento de la aplicación.
+- **TypeScript** — Lógica de las vistas.
+- **HTML** — Estructura de las interfaces.
+- **SCSS** — Diseño y estilos.
+- **Axios** — Comunicación con la API.
+- **PHP** — Desarrollo de la API.
+- **MySQL** — Base de datos.
+- **Git** — Control de versiones.
+- **GitHub** — Repositorio del proyecto.
+
+## 🚧 Estado del proyecto
+
+El proyecto se encuentra actualmente **en desarrollo**.
+
+Hasta el momento se ha trabajado en:
+
+- Diseño de interfaces.
+- Pantalla de inicio de sesión.
+- Navegación mediante tabs.
+- Modelo inicial de datos.
+- Base de datos de usuarios.
+- API en PHP.
+- Conexión mediante Axios.
+- Validación de credenciales.
+- Manejo de información mediante `localStorage`.
+- Desarrollo de las vistas principales.
+- Vista de perfil.
+- Control de versiones mediante Git y GitHub.
+
+Las funcionalidades y vistas continuarán siendo modificadas y mejoradas conforme avance el desarrollo del proyecto.
+
+## 👩‍💻 Autora
+
+**Jazmín Montes**  
+Ingeniería de Software
