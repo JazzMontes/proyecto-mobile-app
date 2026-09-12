@@ -1,6 +1,65 @@
 <ion-content [fullscreen]="true">
-  <div style="padding: 30px;">
-    <h1>Bienvenido</h1>
-    <p>Has iniciado sesión correctamente.</p>
+  <div class="contenedor">
+    <h1 class="logo">
+      <span class="nombre-empresa">Acme</span> Servicios
+    </h1>
+
+    <div class="wrapper">
+      <div class="info-empresa">
+        <h3>Acme Servicios</h3>
+
+        <ul class="servicios">
+          <li>
+            <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+            Calle Cualquiera, 44. 88880. Ciudad (Provincia)
+          </li>
+
+          <li>
+            <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+            555 555 000
+          </li>
+
+          <li>
+            <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+            info@empresa.com
+          </li>
+        </ul>
+      </div>
+
+      <div class="contacto">
+        <h3>Enviar Correo</h3>
+
+        <form class="formulario" (submit)="$event.preventDefault()">
+          <div>
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" name="nombre" required />
+          </div>
+
+          <div>
+            <label for="empresa">Empresa</label>
+            <input id="empresa" type="text" name="empresa" />
+          </div>
+
+          <div>
+            <label for="email">Correo</label>
+            <input id="email" type="email" name="email" required />
+          </div>
+
+          <div>
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="tel" name="telefono" required />
+          </div>
+
+          <div class="full">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+          </div>
+
+          <div class="full">
+            <button type="submit" class="boton-enviar">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </ion-content>

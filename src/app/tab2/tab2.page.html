@@ -1,31 +1,60 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Photo Gallery </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="profile-page">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Photo Gallery</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="perfil-container">
 
-  <ion-grid>
-    <ion-row>
-      @for (photo of photoService.photos(); track photo.filepath; let position = $index) {
-      <ion-col size="6">
-        <button (click)="showActionSheet(photo, position)">
-          <img [src]="photo.webviewPath" [attr.alt]="'Photo ' + (position + 1)" loading="lazy" />
+    <div class="perfil-card">
+
+      <div class="perfil-header">
+        <div class="avatar">
+          {{ inicial }}
+        </div>
+
+        <h1>Mi Perfil</h1>
+        <p>Información de tu cuenta</p>
+      </div>
+
+      <div class="perfil-info">
+
+        <div class="info-item">
+          <span class="info-label">Nombre</span>
+          <span class="info-value">{{ nombre }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Usuario</span>
+          <span class="info-value">{{ usuario }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Correo</span>
+          <span class="info-value">{{ correo }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Estado</span>
+
+          <span
+            class="estado"
+            [class.activo]="estado === 'Activo'"
+          >
+            {{ estado }}
+          </span>
+        </div>
+
+      </div>
+
+      <div class="perfil-footer">
+        <button
+          type="button"
+          class="boton-cerrar"
+          (click)="cerrarSesion()"
+        >
+          Cerrar sesión
         </button>
-      </ion-col>
-      }
-    </ion-row>
-  </ion-grid>
+      </div>
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="addPhotoToGallery()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    </div>
+
+  </div>
+
 </ion-content>

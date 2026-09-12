@@ -1,16 +1,294 @@
-ion-col > button {
+@import url('https://fonts.googleapis.com/css?family=Gudea:400,700');
+
+$fuente-principal: 'Gudea', sans-serif;
+
+$fondo-1: #ea5c54;
+$fondo-2: #bb6dec;
+
+$panel-1: #35394a;
+$panel-2: #1f222e;
+
+$campo: #32364a;
+$borde: #393d52;
+
+$texto: #afb1be;
+$texto-claro: #d5d8e2;
+
+$rosa: #dc6180;
+$verde: #63d9a0;
+
+:host {
   display: block;
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  font: inherit;
+  font-family: $fuente-principal;
 }
 
-button img {
-  display: block;
+/* ---------------------- */
+/* FONDO */
+/* ---------------------- */
+
+ion-content.profile-page {
+  --background: linear-gradient(
+    135deg,
+    #ea5c54 0%,
+    #bb6dec 100%
+  );
+
+  --color: #afb1be;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------- */
+/* CONTENEDOR */
+/* ---------------------- */
+
+.perfil-container {
+  min-height: 100%;
   width: 100%;
-  height: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2rem 1.5rem;
+}
+
+/* ---------------------- */
+/* TARJETA */
+/* ---------------------- */
+
+.perfil-card {
+  width: 100%;
+  max-width: 430px;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    45deg,
+    $panel-1 0%,
+    $panel-2 100%
+  );
+
+  border-top: 2px solid #d8312a;
+  border-radius: 8px;
+
+  box-shadow:
+    0 20px 30px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------------------- */
+/* HEADER */
+/* ---------------------- */
+
+.perfil-header {
+  padding: 2.5rem 2rem 1.8rem;
+
+  text-align: center;
+
+  border-bottom: 1px solid $borde;
+
+  h1 {
+    margin: 1rem 0 0.3rem;
+
+    color: $texto-claro;
+
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+
+    color: #686c80;
+
+    font-size: 12px;
+  }
+}
+
+/* ---------------------- */
+/* AVATAR */
+/* ---------------------- */
+
+.avatar {
+  width: 75px;
+  height: 75px;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid $rosa;
+  border-radius: 50%;
+
+  color: $rosa;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  background: rgba(220, 97, 128, 0.08);
+
+  box-shadow:
+    0 0 20px rgba(220, 97, 128, 0.15);
+}
+
+/* ---------------------- */
+/* INFORMACIÓN */
+/* ---------------------- */
+
+.perfil-info {
+  padding: 1.5rem 2rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 62px;
+
+  border-bottom: 1px solid $borde;
+
+  gap: 20px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.info-label {
+  color: #696d82;
+
+  font-size: 12px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  color: $texto-claro;
+
+  font-size: 14px;
+
+  text-align: right;
+
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------- */
+/* ESTADO */
+/* ---------------------- */
+
+.estado {
+  padding: 5px 12px;
+
+  border-radius: 50px;
+
+  border: 1px solid #777b90;
+
+  color: #777b90;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.activo {
+    border-color: $verde;
+
+    color: $verde;
+
+    background: rgba(99, 217, 160, 0.08);
+  }
+}
+
+/* ---------------------- */
+/* FOOTER */
+/* ---------------------- */
+
+.perfil-footer {
+  padding: 0 2rem 2rem;
+}
+
+/* ---------------------- */
+/* CERRAR SESIÓN */
+/* ---------------------- */
+
+.boton-cerrar {
+  display: block;
+
+  width: 100%;
+
+  padding: 12px;
+
+  background: transparent;
+
+  color: $rosa;
+
+  border: 2px solid $rosa;
+  border-radius: 50px;
+
+  font-family: $fuente-principal;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.2s;
+
+  &:hover,
+  &:focus {
+    background: $rosa;
+
+    color: #ffffff;
+
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ---------------------- */
+/* CELULAR */
+/* ---------------------- */
+
+@media (max-width: 480px) {
+
+  .perfil-container {
+    padding: 1.25rem;
+  }
+
+  .perfil-card {
+    max-width: 100%;
+  }
+
+  .perfil-header {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .perfil-info {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .perfil-footer {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .info-item {
+    min-height: 58px;
+  }
 }
