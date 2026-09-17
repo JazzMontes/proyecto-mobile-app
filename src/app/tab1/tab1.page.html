@@ -1,65 +1,287 @@
 <ion-content [fullscreen]="true">
+
   <div class="contenedor">
+
     <h1 class="logo">
-      <span class="nombre-empresa">Acme</span> Servicios
+      <span class="nombre-empresa">Gestión</span>
+      de Usuarios
     </h1>
 
     <div class="wrapper">
+
       <div class="info-empresa">
-        <h3>Acme Servicios</h3>
+
+        <h3>Usuarios</h3>
 
         <ul class="servicios">
-          <li>
-            <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
-            Calle Cualquiera, 44. 88880. Ciudad (Provincia)
-          </li>
-
-          <li>
-            <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
-            555 555 000
-          </li>
-
-          <li>
-            <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-            info@empresa.com
-          </li>
+          <li>Administración de usuarios</li>
+          <li>Crear y editar usuarios</li>
+          <li>Activar o desactivar usuarios</li>
+          <li>Eliminar usuarios</li>
         </ul>
+
       </div>
 
       <div class="contacto">
-        <h3>Enviar Correo</h3>
 
-        <form class="formulario" (submit)="$event.preventDefault()">
+        <h3>
+          {{
+            editingId !== null
+              ? 'Editar Usuario'
+              : 'Nuevo Usuario'
+          }}
+        </h3>
+
+        <form
+          class="formulario"
+          (ngSubmit)="saveUser()"
+          autocomplete="off"
+        >
+
           <div>
-            <label for="nombre">Nombre</label>
-            <input id="nombre" type="text" name="nombre" required />
+            <label for="nombre">
+              Nombre
+            </label>
+
+            <input
+              id="nombre"
+              type="text"
+              name="nombre"
+              [(ngModel)]="user.name"
+              required
+            />
           </div>
 
           <div>
-            <label for="empresa">Empresa</label>
-            <input id="empresa" type="text" name="empresa" />
+            <label for="username">
+              Usuario
+            </label>
+
+            <input
+              id="username"
+              type="text"
+              name="username"
+              [(ngModel)]="user.username"
+              required
+            />
           </div>
 
           <div>
-            <label for="email">Correo</label>
-            <input id="email" type="email" name="email" required />
+            <label for="email">
+              Correo
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              name="email"
+              [(ngModel)]="user.email"
+              required
+            />
           </div>
 
           <div>
-            <label for="telefono">Teléfono</label>
-            <input id="telefono" type="tel" name="telefono" required />
+            <label for="password">
+              Contraseña
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              name="password"
+              [(ngModel)]="user.password"
+              [required]="editingId === null"
+              autocomplete="new-password"
+            />
           </div>
 
           <div class="full">
-            <label for="mensaje">Mensaje</label>
-            <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+            <label for="status">
+              Estado
+            </label>
+
+            <select
+              id="status"
+              name="status"
+              [(ngModel)]="user.status"
+            >
+              <option value="active">
+                Activo
+              </option>
+
+              <option value="inactive">
+                Inactivo
+              </option>
+            </select>
+
           </div>
 
           <div class="full">
-            <button type="submit" class="boton-enviar">Enviar</button>
+
+            <button
+              type="submit"
+              class="boton-enviar"
+            >
+              {{
+                editingId !== null
+                  ? 'Actualizar'
+                  : 'Guardar'
+              }}
+            </button>
+
           </div>
+
+          <div
+            class="full"
+            *ngIf="editingId !== null"
+          >
+
+            <button
+              type="button"
+              class="boton-enviar"
+              (click)="clearForm()"
+            >
+              Cancelar
+            </button>
+
+          </div>
+
         </form>
+
+      </div>
+
+    </div>
+
+
+    <!-- USUARIOS REGISTRADOS -->
+
+    <div class="lista-usuarios">
+
+      <h2>Usuarios registrados</h2>
+
+      <div
+        class="usuario-card"
+        *ngFor="let item of users"
+      >
+
+        <div class="usuario-info">
+
+          <h3>
+            {{ item.name }}
+          </h3>
+
+          <p>
+            <strong>Usuario:</strong>
+            {{ item.username }}
+          </p>
+
+          <p>
+            <strong>Correo:</strong>
+            {{ item.email }}
+          </p>
+
+          <p>
+            <strong>Estado:</strong>
+
+            <span
+              class="estado"
+              [class.estado-activo]="item.status === 'active'"
+              [class.estado-inactivo]="item.status === 'inactive'"
+            >
+              {{
+                item.status === 'active'
+                  ? 'Activo'
+                  : 'Inactivo'
+              }}
+            </span>
+          </p>
+
+        </div>
+
+
+        <div class="acciones">
+
+          <button
+            type="button"
+            class="boton-editar"
+            (click)="editUser(item)"
+          >
+            Editar
+          </button>
+
+
+          <button
+            type="button"
+            class="boton-estado"
+            (click)="toggleStatus(item)"
+          >
+            {{
+              item.status === 'active'
+                ? 'Desactivar'
+                : 'Activar'
+            }}
+          </button>
+
+
+          <button
+            type="button"
+            class="boton-eliminar"
+            (click)="openDeleteModal(item)"
+          >
+            Eliminar
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div
+    class="modal-overlay"
+    *ngIf="showDeleteModal"
+    (click)="closeDeleteModal()"
+  >
+    <div
+      class="modal-eliminar"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="modal-icono">!</div>
+
+      <h2>Eliminar usuario</h2>
+
+      <p>
+        ¿Seguro que deseas eliminar a
+        <strong>{{ userToDelete?.name }}</strong>?
+      </p>
+
+      <span class="modal-aviso">
+        Esta acción no se puede deshacer.
+      </span>
+
+      <div class="modal-acciones">
+        <button
+          type="button"
+          class="modal-cancelar"
+          (click)="closeDeleteModal()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="modal-confirmar"
+          (click)="confirmDelete()"
+        >
+          Sí, eliminar
+        </button>
       </div>
     </div>
   </div>
+
 </ion-content>
